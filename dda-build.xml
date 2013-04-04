@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project name="ddieditor-marc" default="resource" basedir=".">
+
+	<!-- can't use build.properties due to PDE using same file!
+	workaround rename to other name, not done yet. No reason so far
+	property file="${basedir}/build.properties" /-->
+
+	<!-- properties -->
+	<property file="${basedir}/../lib-java/lib.properties" />
+	<property file="${basedir}/ddabuild.properties" />
+	<property environment="env" />
+
+	<!-- directories -->
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="src.resources.dir" value="${src.dir}/resources" />
+	<property name="lib.dir" value="${basedir}/../lib-java/" />
+	<property name="build.classes.dir" value="${basedir}/bin" />
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- clean										 -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="clean" description="Clean up">
+		<delete quiet="true" dir="${build.classes.dir}" />
+	</target>
+
+	<path id="svn.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="svnant/${version.svnant}/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" classpathref="svn.classpath">
+	</taskdef>
+
+	<target name="resource" description="Setup resources in the build dir">
+		<mkdir dir="${build.classes.dir}/resources" />
+		<copy todir="${build.classes.dir}/resources" overwrite="yes">
+			<fileset dir="${src.resources.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+
+		<!-- checkout stylesheet -->
+		<mkdir dir="${build.classes.dir}/resources/ddimarcxml" />
+		<!--svn>
+			<export force="true" srcurl="http://ddixslt.googlecode.com/svn/trunk/ddi-marcxml" revision="HEAD" destpath="${build.classes.dir}/resources/ddimarcxml" />
+		</svn-->
+	</target>
+
+	<target name="deploy-to-ddieditor-ui" depends="resource" description="Copies resources to ddieditor-ui/build dir">
+		<!-- resource files -->
+		<copy todir="../ddieditor-ui/bin/resources" overwrite="true" verbose="true">
+			<fileset dir="${build.classes.dir}/resources">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- misc										 -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="javadoc" description="Compile javadoc">
+		<mkdir dir="${build.dir.jdoc}" />
+		<javadoc sourcepath="${src.dir}" destdir="${build.dir.jdoc}" classpathref="project.classpath" splitindex="true" verbose="true">
+			<fileset dir="${src.dir}">
+				<include name="org/ddiallince/**/*" />
+			</fileset>
+		</javadoc>
+	</target>
+</project>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DdiEditor-Marc
+Bundle-SymbolicName: ddieditor-marc;singleton:=true
+Bundle-Version: 0.1.0
+Bundle-Activator: dk.dda.ddieditor.marc.osgi.Activator
+Bundle-Vendor: Danish Data Archive
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ ddieditor-ui;bundle-version="0.22.0",
+ lib-java;bundle-version="0.16.0",
+ util;bundle-version="0.25.0",
+ ddieditor;bundle-version="0.24.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
