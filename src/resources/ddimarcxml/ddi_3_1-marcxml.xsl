@@ -415,23 +415,27 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
             </xsl:if>
             
             <!-- 522: Geographic Coverage Note -->
-            <xsl:if test="r:Coverage/r:SpatialCoverage/r:Description">
-                <datafield ind1=" " ind2=" " tag="522">
-                    <subfield code="a">
-                        <xsl:choose>
-                            <xsl:when test="r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$lang]">                    
-                                <xsl:value-of select="normalize-space(r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$lang])"/>
-                            </xsl:when>
-                            <xsl:when test="r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$fallback-lang]">
-                                <xsl:value-of select="normalize-space(r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$fallback-lang])"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="normalize-space(r:Coverage/r:SpatialCoverage/r:Description)"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </subfield>
-                </datafield>
-            </xsl:if>
+            <!--xsl:variable name="topLevelRefId" select="r:Coverage/r:SpatialCoverage/r:TopLevelReference/r:LevelReference/r:ID"/>            
+            <xsl:variable name="topLevel" select="c:ConceptualComponent/c:GeographicStructureScheme/r:GeographicStructure[@id=$topLevelRefId]/r:Geography/r:Level/r:Name"/>       
+            <xsl:variable name="lowerLevelRefId" select="r:Coverage/r:SpatialCoverage/r:LowerLevelReference/r:LevelReference/r:ID"/>            
+            <xsl:variable name="lowerLevel" select="c:ConceptualComponent/c:GeographicStructureScheme/r:GeographicStructure[@id=$topLevelRefId]/r:Geography/r:Level/r:Name"/>
+            <xsl:value-of select="normalize-space(concat($topLevel, ' ', $lowerLevel, ' ', $spatialCoverageDescription ))"/-->
+                        
+            <datafield ind1=" " ind2=" " tag="522">
+                <subfield code="a">
+                  <xsl:choose>
+                    <xsl:when test="r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$lang]">                    
+                        <xsl:value-of select="normalize-space(r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$lang])"/>
+                    </xsl:when>
+                    <xsl:when test="r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$fallback-lang]">
+                        <xsl:value-of select="normalize-space(r:Coverage/r:SpatialCoverage/r:Description[@xml:lang=$fallback-lang])"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="normalize-space(r:Coverage/r:SpatialCoverage/r:Description)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </subfield>
+            </datafield>
             
             <!-- 542: Copyright -->
             <xsl:if test="r:Citation/r:Copyright">
