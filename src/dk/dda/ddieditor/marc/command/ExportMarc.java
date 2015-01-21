@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.xml.transform.Transformer;
 
 import org.ddialliance.ddieditor.persistenceaccess.PersistenceManager;
+import org.ddialliance.ddieditor.ui.model.userid.UserIdType;
 import org.ddialliance.ddieditor.ui.util.PrintUtil;
 import org.ddialliance.ddieditor.util.DdiEditorConfig;
 import org.ddialliance.ddiftp.util.Translator;
@@ -84,7 +85,13 @@ public class ExportMarc extends org.eclipse.core.commands.AbstractHandler {
 															.exportResoure(
 																	marcWizard.ddiResource
 																			.getOrgName(),
-																	tmpDdilFile);
+																	tmpDdilFile,
+																	org.ddialliance.ddieditor.ui.Activator
+																			.getDefault()
+																			.getPreferenceStore()
+																			.getString(
+																					UserIdType.DDI_EDITOR_VERSION
+																							.getType()));
 
 													// transform
 													PrintUtil printUtil = new PrintUtil();
